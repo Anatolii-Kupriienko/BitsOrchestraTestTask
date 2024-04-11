@@ -9,47 +9,90 @@
         <input type="file" name="file" id="file">
         <input type="submit" value="Upload">
     </form>
-    <table class="content-table">
-        <tr>
-            <td class="headerRow" id="id">
-                Id
-            </td>
-            <td class="headerRow" id="name">
-                Name
-            </td>
-            <td class="headerRow" id="birthDate">
-                Date of Birth
-            </td>
-            <td class="headerRow" id="isMarried">
-                Married
-            </td>
-            <td class="headerRow" id="phoneNumber">
-                Phone Number
-            </td>
-            <td class="headerRow" id="salary">
-                Salary
-            </td>
-            <td id="resetSort" class="headerRow">Reset sort</td>
-        </tr>
-        @foreach (var person in Model)
-        {
-            <tr class="record">
-                <td>@person.Id</td>
-                <td>@person.Name</td>
-                <td>@person.BirthDate</td>
-                <td> @if (@person.IsMarried)
-                    {
-                        <span>Yes</span>
-                    }
-                    else
-                    {
-                        <span>No</span>
-                    }
+    <div class="my-container">
+        <div class="filters">
+            <h4>Filters</h4>
+            <div id="idFilter" class="filter">
+                <span>Id:</span>
+                <label for="minId">min:</label>
+                <input type="number" id="minId" name="minId">
+                <label for="maxId">max:</label>
+                <input type="number" id="maxId" name="maxId">
+            </div>
+            <div id="nameFilter" class="filter">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div id="birthDateFilter" class="filter">
+                <span>Date of Birth:</span>
+                <label for="minBirthDate">min:</label>
+                <input type="date" id="minBirthDate" name="minBirthDate">
+                <label for="maxBirthDate">max:</label>
+                <input type="date" id="maxBirthDate" name="maxBirthDate">
+            </div>
+            <div id="isMarriedFilter" class="filter">
+                <label for="isMarried">Married:</label>
+                <select id="isMarried" name="isMarried">
+                    <option value="default" selected></option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div id="phoneNumberFilter" class="filter">
+                <label for="phoneNumber">Phone Number:</label>
+                <input placeholder="+380..." type="text" id="phoneNumber" name="phoneNumber">
+            </div>
+            <div id="salaryFilter" class="filter">
+                <span>Salary:</span>
+                <label for="minSalary">min:</label>
+                <input type="number" id="minSalary" name="minSalary">
+                <label for="maxSalary">max:</label>
+                <input type="number" id="maxSalary" name="maxSalary">
+            </div>
+            <button id="filterButton">Filter</button>
+        </div>
+        <table class="content-table">
+            <tr>
+                <td class="headerRow" id="id">
+                    Id
                 </td>
-                <td>@person.PhoneNumber</td>
-                <td>@person.Salary</td>
-                <td><a class="text-danger" asp-route-id="@person.Id" asp-action="Delete">Delete</a></td>
+                <td class="headerRow" id="name">
+                    Name
+                </td>
+                <td class="headerRow" id="birthDate">
+                    Date of Birth
+                </td>
+                <td class="headerRow" id="isMarried">
+                    Married
+                </td>
+                <td class="headerRow" id="phoneNumber">
+                    Phone Number
+                </td>
+                <td class="headerRow" id="salary">
+                    Salary
+                </td>
+                <td id="resetSort" class="headerRow">Reset sort</td>
             </tr>
-        }
-    </table>
+            @foreach (var person in Model)
+            {
+                <tr class="record">
+                    <td>@person.Id</td>
+                    <td>@person.Name</td>
+                    <td>@person.BirthDate.ToShortDateString()</td>
+                    <td> @if (@person.IsMarried)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    </td>
+                    <td>@person.PhoneNumber</td>
+                    <td>@person.Salary</td>
+                    <td><a class="text-danger" asp-route-id="@person.Id" asp-action="Delete">Delete</a></td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>

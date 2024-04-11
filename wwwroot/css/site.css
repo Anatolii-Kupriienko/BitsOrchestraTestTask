@@ -51,3 +51,17 @@ body {
   border: 1px solid gray;
   background-color: white;
 }
+
+.my-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.filter{
+  display: flex;
+  justify-content: start;
+  padding: 5px;
+}
+.filter * {
+  margin: 5px;
+}
