@@ -1,0 +1,55 @@
+﻿@model IEnumerable<PersonModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <form enctype="multipart/form-data" action="#" method="post">
+        <h3>Upload data</h3>
+        <input type="file" name="file" id="file">
+        <input type="submit" value="Upload">
+    </form>
+    <table class="content-table">
+        <tr>
+            <td>
+                Id
+            </td>
+            <td>
+                Name
+            </td>
+            <td>
+                Date of Birth
+            </td>
+            <td>
+                Married
+            </td>
+            <td>
+                Phone Number
+            </td>
+            <td>
+                Salary
+            </td>
+            <td></td>
+        </tr>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.Id</td>
+                <td>@person.Name</td>
+                <td>@person.BirthDate</td>
+                <td> @if (@person.IsMarried)
+                    {
+                        <span>Yes</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                </td>
+                <td>@person.PhoneNumber</td>
+                <td>@person.Salary</td>
+                <td><a class="text-danger" asp-route-id="@person.Id" asp-action="Delete">Delete</a></td>
+            </tr>
+        }
+    </table>
+</div>
