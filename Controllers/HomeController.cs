@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BitsOrchestraTest.Models;
 using BitsOrchestraTest.Services;
+using System.Text.Json;
 
 namespace BitsOrchestraTest.Controllers;
 
@@ -14,6 +15,12 @@ public class HomeController : Controller
     {
         Environment = environment;
         Service = fileService;
+    }
+
+    [HttpGet("/api/people")]
+    public string GetPeople()
+    {
+        return JsonSerializer.Serialize(Service.GetPeople());
     }
 
     [HttpGet]

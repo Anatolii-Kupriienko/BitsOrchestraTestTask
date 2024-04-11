@@ -11,29 +11,29 @@
     </form>
     <table class="content-table">
         <tr>
-            <td>
+            <td class="headerRow" id="id">
                 Id
             </td>
-            <td>
+            <td class="headerRow" id="name">
                 Name
             </td>
-            <td>
+            <td class="headerRow" id="birthDate">
                 Date of Birth
             </td>
-            <td>
+            <td class="headerRow" id="isMarried">
                 Married
             </td>
-            <td>
+            <td class="headerRow" id="phoneNumber">
                 Phone Number
             </td>
-            <td>
+            <td class="headerRow" id="salary">
                 Salary
             </td>
-            <td></td>
+            <td id="resetSort" class="headerRow">Reset sort</td>
         </tr>
         @foreach (var person in Model)
         {
-            <tr>
+            <tr class="record">
                 <td>@person.Id</td>
                 <td>@person.Name</td>
                 <td>@person.BirthDate</td>

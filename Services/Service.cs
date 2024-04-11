@@ -48,6 +48,7 @@ namespace BitsOrchestraTest.Services
                     }
                 }
             }
+            File.Delete(path + fileName);
         }
 
         public IEnumerable<PersonModel> GetPeople()

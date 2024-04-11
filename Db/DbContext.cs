@@ -14,6 +14,7 @@ namespace BitsOrchestraTest.Db
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PersonModel>().HasKey(p => p.Id);
+            modelBuilder.Entity<PersonModel>().Property(p => p.Salary).HasColumnType("decimal(18, 2)").HasConversion<double>();
         }
     }
 }
