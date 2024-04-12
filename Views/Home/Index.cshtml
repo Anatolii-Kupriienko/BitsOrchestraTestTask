@@ -78,7 +78,7 @@
                 <tr class="record">
                     <td>@person.Id</td>
                     <td>@person.Name</td>
-                    <td>@person.BirthDate.Year-@person.BirthDate.Month-@person.BirthDate.Day</td>
+                    <td>@person.BirthDate.ToShortDateString()</td>
                     @if (@person.IsMarried)
                     {
                         <td>Yes</td>
