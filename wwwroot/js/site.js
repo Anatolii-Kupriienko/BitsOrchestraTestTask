@@ -2,6 +2,13 @@
 main();
 // this looks bad but I don't have much experience with JS and I don't know how to make it better
 async function main() {
+    enableEdit();
+    const deleteButtons = document.querySelectorAll(".text-danger");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            e.target.parentElement.parentElement.remove();
+        });
+    });
     const headerRow = document.querySelector("table tr");
     currentData = await getPeople();
     headerRow.addEventListener("click", async (e) => {
@@ -112,14 +119,15 @@ function showData(data) {
     const table = document.querySelector("table");
     data.forEach(person => {
         const row = document.createElement("tr");
-        const dateString = `${new Date(person.BirthDate).getDate()}/${new Date(person.BirthDate).getMonth() + 1}/${new Date(person.BirthDate).getFullYear()}`;
+        const date = new Date(person.BirthDate);
+        const dateFormatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
         row.classList.add("record");
         const idElement = document.createElement("td");
         idElement.innerHTML = person.Id;
         const nameElement = document.createElement("td");
         nameElement.innerHTML = person.Name;
         const birthDateElement = document.createElement("td");
-        birthDateElement.innerHTML = dateString;
+        birthDateElement.innerHTML = dateFormatted;
         const isMarriedElement = document.createElement("td");
         isMarriedElement.innerHTML = person.IsMarried ? "Yes" : "No";
         const phoneNumberElement = document.createElement("td");
@@ -186,8 +194,8 @@ function filterByBirthDate(data, minBirthDate, maxBirthDate) {
     }
 }
 
-function isDateValid(dateString) {
-    return !isNaN(new Date(dateString));
+function isDateValid(dateFormatted) {
+    return !isNaN(new Date(dateFormatted));
 }
 
 function filterByIsMarried(data, isMarried) {
@@ -242,4 +250,70 @@ function sortByPhoneNumber(data, isDesc) {
 
 function sortBySalary(data, isDesc) {
     return data.sort((a, b) => isDesc ? b.Salary - a.Salary : a.Salary - b.Salary);
+}
+
+function enableEdit() {
+    // selecting every column except for the first one, which is Id because it might cause problems if edited
+    const recordFields = document.querySelectorAll(".record td:nth-child(n+2)");
+    recordFields.forEach(field => {
+        field.addEventListener("dblclick", (e) => {
+            const parentItem = e.target;
+            let value = parentItem.innerHTML;
+            let input;
+            parentItem.innerHTML = "";
+            if (parentItem.cellIndex == 3) {
+                input = document.createElement("select");
+                const option1 = document.createElement("option");
+                option1.value = "Yes";
+                option1.text = "Yes";
+                const option2 = document.createElement("option");
+                option2.value = "No";
+                option2.text = "No";
+                input.appendChild(option1);
+                input.appendChild(option2);
+            }
+            else {
+                input = document.createElement("input");
+                switch (parentItem.cellIndex) {
+                    case 2:
+                        input.type = "date";
+                        break;
+                    case 5:
+                        input.type = "number";
+                        break;
+                }
+            }
+            parentItem.appendChild(input);
+            input.focus();
+            input.addEventListener("focusout", (e) => {
+                const item = e.target;
+                if (item.value != value && item.value != "") {
+                    value = e.target.value;
+                }
+                parentItem.innerHTML = value;
+                const recordFields = parentItem.parentElement.children;
+                const person = {
+                    Id: parseInt(recordFields[0].innerHTML),
+                    Name: recordFields[1].innerHTML,
+                    BirthDate: recordFields[2].innerHTML,
+                    IsMarried: recordFields[3].innerHTML == "Yes" ? true : false,
+                    PhoneNumber: recordFields[4].innerHTML,
+                    Salary: parseFloat(recordFields[5].innerHTML),
+                };
+                editRecord(person);
+            })
+        });
+    });
+}
+
+function editRecord(record) {
+    const url = document.location.href + "api/people/" + record.Id;
+    const data = JSON.stringify(record);
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: data
+    });
 }

@@ -78,16 +78,15 @@
                 <tr class="record">
                     <td>@person.Id</td>
                     <td>@person.Name</td>
-                    <td>@person.BirthDate.ToShortDateString()</td>
-                    <td> @if (@person.IsMarried)
-                        {
-                            <span>Yes</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    </td>
+                    <td>@person.BirthDate.Year-@person.BirthDate.Month-@person.BirthDate.Day</td>
+                    @if (@person.IsMarried)
+                    {
+                        <td>Yes</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
                     <td>@person.PhoneNumber</td>
                     <td>@person.Salary</td>
                     <td><a class="text-danger" asp-route-id="@person.Id" asp-action="Delete">Delete</a></td>

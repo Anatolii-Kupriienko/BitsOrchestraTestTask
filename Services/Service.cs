@@ -56,6 +56,18 @@ namespace BitsOrchestraTest.Services
             return _context.People.ToList();
         }
 
+        public void EditPerson(int id, PersonModel model)
+        {
+            var person = _context.People.Find(id);
+            if (person == null) return;
+            person.Name = model.Name;
+            person.BirthDate = model.BirthDate;
+            person.IsMarried = model.IsMarried;
+            person.PhoneNumber = model.PhoneNumber;
+            person.Salary = model.Salary;
+            _context.SaveChanges();
+        }
+
         public void DeletePerson(int id)
         {
             var person = _context.People.FirstOrDefault(p => p.Id == id);

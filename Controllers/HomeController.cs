@@ -41,7 +41,17 @@ public class HomeController : Controller
     public IActionResult Delete(int id)
     {
         Service.DeletePerson(id);
-        return RedirectToAction("Index");
+        return NoContent();
+    }
+
+    [HttpPatch("/api/people/{id}")]
+    public IActionResult Edit(int id, [FromBody]PersonModel person)
+    {
+        if (person == null) {
+            return BadRequest();
+        }
+        Service.EditPerson(id, person);
+        return Ok();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
